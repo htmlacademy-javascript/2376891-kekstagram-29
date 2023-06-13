@@ -1,8 +1,5 @@
 function checkLength(string, length) {
-  if (string.length <= length) {
-    return true;
-  }
-  return false;
+  return string.length <= length;
 }
 
 function isPalindrome(string) {
@@ -41,7 +38,7 @@ console.log(checkLength('aaa', 3));
 console.log(checkLength('aa', 3));
 console.log(checkLength('aaaa', 3));
 
-console.log(isPalindrome('топот'));
+/*console.log(isPalindrome('топот'));
 console.log(isPalindrome('ДовОд'));
 console.log(isPalindrome('Кекс'));
 console.log(isPalindrome('Лёша на полке клопа нашёл '));
