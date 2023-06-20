@@ -25,25 +25,6 @@ const DESCRIPTIONS = [
   'photo on the beach',
   'soup',
   'black car',
-  'strawberry',
-  'fruit drink',
-  'airplane',
-  'shoe rack',
-  'Path to the Beach',
-  'White car',
-  'salmon with vegetables',
-  'sushi',
-  'felt boots',
-  'above the clouds',
-  'opera choir',
-  'vintage car',
-  'Light Up Slippers',
-  'The Territory Of The Hotel',
-  'chicken salad',
-  'the sunset',
-  'lobster',
-  'concert',
-  'hippopotamus',
 ];
 
 const PHOTO_COUNT = 25;
@@ -92,12 +73,14 @@ const createPhoto = () => {
   return {
     id: idNumber, //от 1-25
     url: `img/photos/${ idNumber}.jpg`,
-    description: DESCRIPTIONS[idNumber - 1],
+    description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(Likes.MIN,Likes.MAX),
     comments: getComments,
   };
 };
 
-const createPhotos = Array.from({ length: PHOTO_COUNT }, createPhoto);
+//const createPhotos = Array.from({ length: PHOTO_COUNT }, createPhoto);
 
-console.log(createPhotos);
+const createPhotos = () => Array.from({ length: PHOTO_COUNT }, createPhoto);
+createPhotos();
+//console.log(createPhotos());
