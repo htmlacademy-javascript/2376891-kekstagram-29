@@ -27,7 +27,10 @@ const DESCRIPTIONS = [
   'black car',
 ];
 
-const PHOTO_COUNT = 25;
+const PhotoCount = {
+  MIN: 1,
+  MAX: 25,
+};
 const Messages = {
   MIN: 1,
   MAX: 2,
@@ -40,7 +43,6 @@ const Likes = {
   MIN: 15,
   MAX: 200,
 };
-let idNumber = 0;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -49,6 +51,15 @@ const getRandomInteger = (a, b) => {
 };
 
 const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
+const getSequenceNumber = (min, max) => {
+  let num = min;
+  return () => {
+    if (num <= max) {
+      return num++;
+    }
+  };
+};
 
 const getMessages = (messagesCount) => {
   let message = getRandomArrayElement(MESSAGES); //let message = MESSAGES[getRandomInteger(0, (MESSAGES.length - 1))];
@@ -66,13 +77,15 @@ const createComment = () => ({
   name: getRandomArrayElement(NAMES), //NAMES[getRandomInteger(0, (NAMES.length - 1))],
 });
 
+const createIDNumber = getSequenceNumber(PhotoCount.MIN,PhotoCount.MAX);
+
 const createPhoto = () => {
   const getComments = Array.from({ length: getRandomInteger(Comments.MIN, Comments.MAX) }, createComment);
+  const idNumber = createIDNumber();
 
-  idNumber += 1;
   return {
     id: idNumber, //от 1-25
-    url: `img/photos/${ idNumber}.jpg`,
+    url: `img/photos/${ idNumber }.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(Likes.MIN,Likes.MAX),
     comments: getComments,
@@ -81,6 +94,6 @@ const createPhoto = () => {
 
 //const createPhotos = Array.from({ length: PHOTO_COUNT }, createPhoto);
 
-const createPhotos = () => Array.from({ length: PHOTO_COUNT }, createPhoto);
+const createPhotos = () => Array.from({ length: PhotoCount.MAX }, createPhoto);
 createPhotos();
 //console.log(createPhotos());
