@@ -52,3 +52,22 @@ console.log(getNumber('а я томат'));
 console.log(getNumber(2023));
 console.log(getNumber(-1));
 console.log(getNumber(1.5));*/
+
+const convertToHours = (date) => Number(date.split(':')[0]) + Number(date.split(':')[1] / 60);
+
+const isMeetingSuitable = (startWork, endWork, startMeeting, meetingDuration) => {
+  startWork = convertToHours(startWork);
+  endWork = convertToHours(endWork);
+  startMeeting = convertToHours(startMeeting);
+  const endMeeting = startMeeting + meetingDuration / 60;
+  //console.log(startWork, endWork, startMeeting, meetingDuration);
+
+  return startMeeting >= startWork && endMeeting <= endWork;
+};
+/*console.log(isMeetingSuitable('08:00', '17:30', '14:00', 90)); // true
+console.log(isMeetingSuitable('8:0', '10:0', '8:0', 120)); // true
+console.log(isMeetingSuitable('08:00', '14:30', '14:00', 90)); // false
+console.log(isMeetingSuitable('14:00', '17:30', '08:0', 90)); // false
+console.log(isMeetingSuitable('8:00', '17:30', '08:00', 900)); // false*/
+
+isMeetingSuitable('08:00', '17:30', '14:00', 90); // true
