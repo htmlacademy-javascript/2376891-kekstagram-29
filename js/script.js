@@ -70,15 +70,11 @@ const createPhoto = () => {
 
   return {
     id: idNumber, //от 1-25
-    url: `img/photos/${ idNumber }.jpg`,
+    url: `/photos/${idNumber}.jpg`,
     description: getRandomArrayElement(DESCRIPTIONS),
     likes: getRandomInteger(Likes.MIN,Likes.MAX),
     comments: getComments,
   };
 };
 
-//const createPhotos = Array.from({ length: PHOTO_COUNT }, createPhoto);
-
-const createPhotos = () => Array.from({ length: PhotoCount.MAX }, createPhoto);
-//createPhotos();
-export { createPhotos };
+export const createPhotos = () => Array.from({ length: PhotoCount.MAX }, createPhoto);
