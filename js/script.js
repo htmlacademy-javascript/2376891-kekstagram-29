@@ -77,4 +77,4 @@ const createPhoto = () => {
   };
 };
 
-export const createPhotos = () => Array.from({ length: PhotoCount.MAX }, createPhoto);
+export const getPhotos = () => Array.from({ length: PhotoCount.MAX }, createPhoto);
