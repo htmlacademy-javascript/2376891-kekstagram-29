@@ -17,4 +17,6 @@ const getSequenceNumber = (min, max) => {
   };
 };
 
-export { getRandomInteger, getRandomArrayElement, getSequenceNumber};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export { getRandomInteger, getRandomArrayElement, getSequenceNumber, isEscapeKey};
