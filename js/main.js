@@ -1,3 +1,4 @@
-import {createPhotos} from './script.js';
+import { getPhotos } from './script.js';
+import { renderThumbnails } from './thumbnail.js';
 
-createPhotos();
+renderThumbnails(getPhotos());
