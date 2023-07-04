@@ -39,14 +39,19 @@ function closePictureModal() {
 
 const commentsList = bigPictureModalElement.querySelector('.social__comments');
 
-const renderComments = (index) => {
+const clearCommentsList = () => {
+  while (commentsList.firstChild) {
+    commentsList.removeChild(commentsList.firstChild);
+  }
+};
+
+const renderCommentsList = (index) => {
   const template = bigPictureModalElement.querySelector('ul').querySelector('.social__comment').cloneNode(true);
   const comments = photos[index].comments;
   const fragment = document.createDocumentFragment();
 
-  while (commentsList.firstChild) {
-    commentsList.removeChild(commentsList.firstChild);
-  }
+  clearCommentsList();
+
   comments.forEach((comment) => {
     const commentTemplate = template.cloneNode(true);
     commentTemplate.querySelector('img').src = comment.avatar;
@@ -63,7 +68,7 @@ const createFullsizePicture = (picture, index) => {
   bigPictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
   bigPictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
 
-  renderComments(index);
+  renderCommentsList(index);
 };
 
 pictureModalOpenElements.forEach((pictureModalOpenElement, index) => {
