@@ -1,2 +1,2 @@
 import './gallery.js';
-import './fullsize-picture.js';
+// import './fullsize-picture.js';
