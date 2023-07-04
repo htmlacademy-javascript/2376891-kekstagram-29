@@ -1,4 +1,2 @@
-import { getPhotos } from './script.js';
-import { renderThumbnails } from './thumbnail.js';
-
-renderThumbnails(getPhotos());
+import './gallery.js';
+import './fullsize-picture.js';
