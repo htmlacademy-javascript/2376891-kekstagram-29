@@ -8,7 +8,7 @@ renderThumbnails(photos);
 
 
 //будем описывать логику показа и скрытия полноразмерного изображения
-const pictureModalElement = document.querySelector('.big-picture');
+const bigPictureModalElement = document.querySelector('.big-picture');
 const pictureModalOpenElements = Array.from(document.querySelectorAll('.picture'));
 const pictureModalCloseElement = document.querySelector('#picture-cancel');
 
@@ -19,43 +19,37 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const onPictureClick = () => {
+const onCloseButtonClick = () => {
   closePictureModal();
 };
 
 function openPictureModal() {
-  pictureModalElement.classList.remove('hidden');
+  bigPictureModalElement.classList.remove('hidden');
+
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  pictureModalCloseElement.addEventListener('click', onPictureClick);
+  pictureModalCloseElement.addEventListener('click', onCloseButtonClick);
 }
 
 function closePictureModal() {
-  pictureModalElement.classList.add('hidden');
+  bigPictureModalElement.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 
-  pictureModalCloseElement.removeEventListener('click', onPictureClick);
+  pictureModalCloseElement.removeEventListener('click', onCloseButtonClick);
 }
 
-const commentsList = pictureModalElement.querySelector('.social__comments');
+const commentsList = bigPictureModalElement.querySelector('.social__comments');
 
-const takeFullsizePicture = (picture, index) => {
-  pictureModalElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
-  // pictureModalElement.querySelector('.big-picture__img').querySelector('img').alt = picture.querySelector('.picture__img').alt;
-  pictureModalElement.querySelector('.social').querySelector('span').textContent = picture.querySelector('.picture__likes').textContent;
-  pictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
-  pictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('img').alt;
-
-  const template = pictureModalElement.querySelector('ul').querySelector('.social__comment').cloneNode(true);
+const renderComments = (index) => {
+  const template = bigPictureModalElement.querySelector('ul').querySelector('.social__comment').cloneNode(true);
+  const comments = photos[index].comments;
+  const fragment = document.createDocumentFragment();
 
   while (commentsList.firstChild) {
     commentsList.removeChild(commentsList.firstChild);
   }
-
-  const comments = photos[index].comments;
-  const fragment = document.createDocumentFragment();
   comments.forEach((comment) => {
     const commentTemplate = template.cloneNode(true);
     commentTemplate.querySelector('img').src = comment.avatar;
@@ -66,9 +60,18 @@ const takeFullsizePicture = (picture, index) => {
   commentsList.appendChild(fragment);
 };
 
+const createFullsizePicture = (picture, index) => {
+  bigPictureModalElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
+  bigPictureModalElement.querySelector('.social').querySelector('span').textContent = picture.querySelector('.picture__likes').textContent;
+  bigPictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
+  bigPictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
+
+  renderComments(index);
+};
+
 pictureModalOpenElements.forEach((pictureModalOpenElement, index) => {
   pictureModalOpenElement.addEventListener('click', () => {
-    takeFullsizePicture(pictureModalOpenElement, index);
+    createFullsizePicture(pictureModalOpenElement, index);
 
     openPictureModal();
   });
