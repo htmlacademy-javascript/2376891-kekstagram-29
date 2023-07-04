@@ -1,11 +1,5 @@
-import { getPhotos } from './script.js';
-import { renderThumbnails } from './thumbnail.js';
 import { isEscapeKey } from './itil.js';
-
-const photos = getPhotos();
-
-renderThumbnails(photos);
-
+import { photos } from './gallery.js';
 
 //будем описывать логику показа и скрытия полноразмерного изображения
 const bigPictureModalElement = document.querySelector('.big-picture');
@@ -79,5 +73,3 @@ pictureModalOpenElements.forEach((pictureModalOpenElement, index) => {
     openPictureModal();
   });
 });
-
-
