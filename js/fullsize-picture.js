@@ -19,25 +19,28 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const onCloseButtonClick = () => {
+const onCloseIconClick = () => {
   closePictureModal();
 };
 
 function openPictureModal() {
   bigPictureModalElement.classList.remove('hidden');
-
+  bigPictureModalElement.querySelector('.social__comment-count').classList.add('hidden');
+  bigPictureModalElement.querySelector('.comments-loader').classList.add('hidden');
+  document.querySelector('body').classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 
-  pictureModalCloseElement.addEventListener('click', onCloseButtonClick);
+  pictureModalCloseElement.addEventListener('click', onCloseIconClick);
 }
 
 function closePictureModal() {
   bigPictureModalElement.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 
-  pictureModalCloseElement.removeEventListener('click', onCloseButtonClick);
+  pictureModalCloseElement.removeEventListener('click', onCloseIconClick);
 }
 
 const commentsList = bigPictureModalElement.querySelector('.social__comments');
