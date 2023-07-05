@@ -15,28 +15,47 @@ const clearCommentsList = () => {
   }
 };
 
-const renderCommentsList = (index) => {
-  const comments = photos[index].comments;
+const renderCommentsList = (photoIndex, commentsCount) => {
+  const comments = photos[photoIndex].comments;
   const fragment = document.createDocumentFragment();
 
   clearCommentsList();
 
-  comments.forEach((comment) => {
-    const commentTemplate = template.cloneNode(true);
-    commentTemplate.querySelector('img').src = comment.avatar;
-    commentTemplate.querySelector('img').alt = comment.name;
-    commentTemplate.querySelector('p').textContent = comment.message;
-    fragment.appendChild(commentTemplate);
+  comments.forEach((comment, index) => {
+    for (let i = 0; i < commentsCount; i++) {
+      if (index === i) {
+        const commentTemplate = template.cloneNode(true);
+        commentTemplate.querySelector('img').src = comment.avatar;
+        commentTemplate.querySelector('img').alt = comment.name;
+        commentTemplate.querySelector('p').textContent = index + comment.message;
+        fragment.appendChild(commentTemplate);
+      }
+    }
   });
+
+  // if (commentsCount >= comments.length) {
+  //   // console.log('всего комментариев ' + comments.length);
+  //   // console.log('сколько показать ' + commentsCount);
+  //   document.querySelector('.comments-loader').classList.add('hidden');
+  // }
+
+  bigPictureModalElement.querySelector('.social__comment-count').firstChild.textContent = `${fragment.children.length} из `;
   commentsList.appendChild(fragment);
 };
 
 export const createFullsizePicture = (picture, index) => {
+  let commentsCount = 5;
   bigPictureModalElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
   bigPictureModalElement.querySelector('.social').querySelector('span').textContent = picture.querySelector('.picture__likes').textContent;
   bigPictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
   bigPictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
 
-  renderCommentsList(index);
+  renderCommentsList(index, commentsCount);
+  // let newCommentsCount = commentsCount;
+
+  return () => {
+    commentsCount += 5;
+    renderCommentsList(index, commentsCount);
+  };
 };
 
