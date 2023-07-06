@@ -15,14 +15,12 @@ const clearCommentsList = () => {
   }
 };
 
-const renderCommentsList = (photoIndex, commentsCount) => {
+const renderCommentsList = (photoIndex, commentsCount, targetCommentsCount) => {
   const comments = photos[photoIndex].comments;
   const fragment = document.createDocumentFragment();
 
-  clearCommentsList();
-
   comments.forEach((comment, index) => {
-    for (let i = 0; i < commentsCount; i++) {
+    for (let i = targetCommentsCount; i < commentsCount; i++) {
       if (index === i) {
         const commentTemplate = template.cloneNode(true);
         commentTemplate.querySelector('img').src = comment.avatar;
@@ -38,9 +36,8 @@ const renderCommentsList = (photoIndex, commentsCount) => {
   //   // console.log('сколько показать ' + commentsCount);
   //   document.querySelector('.comments-loader').classList.add('hidden');
   // }
-
-  bigPictureModalElement.querySelector('.social__comment-count').firstChild.textContent = `${fragment.children.length} из `;
   commentsList.appendChild(fragment);
+  bigPictureModalElement.querySelector('.social__comment-count').firstChild.textContent = `${commentsList.children.length} из `;
 };
 
 export const createFullsizePicture = (picture, index) => {
@@ -50,12 +47,14 @@ export const createFullsizePicture = (picture, index) => {
   bigPictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
   bigPictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
 
-  renderCommentsList(index, commentsCount);
-  // let newCommentsCount = commentsCount;
+  clearCommentsList();
+
+  renderCommentsList(index, commentsCount, 0);
 
   return () => {
+    const targetCommentsCount = commentsCount;
     commentsCount += 5;
-    renderCommentsList(index, commentsCount);
+    renderCommentsList(index, commentsCount, targetCommentsCount);
   };
 };
 

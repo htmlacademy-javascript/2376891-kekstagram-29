@@ -16,15 +16,11 @@ const onCloseIconClick = () => {
   closePictureModal();
 };
 
-const onCommentsLoaderClick = (firstRender) => {
-  // const commentsCount = 5;
-  // console.log(firstRender);
-  // firstRender = Object.assign({a: commentsCount += 5}, firstRender);
-  firstRender();
+const onCommentsLoaderClick = (reRender) => {
+  reRender();
 };
 
-function openPictureModal(firstRender) {
-  // const commentsCount = 5;
+function openPictureModal(reRender) {
   bigPictureModalElement.classList.remove('hidden');
   // bigPictureModalElement.querySelector('.social__comment-count').classList.add('hidden');
   // bigPictureModalElement.querySelector('.comments-loader').classList.add('hidden');
@@ -32,8 +28,8 @@ function openPictureModal(firstRender) {
 
   document.addEventListener('keydown', onDocumentKeydown);
   pictureModalCloseElement.addEventListener('click', onCloseIconClick);
-  commentsLoader.addEventListener('click', () => onCommentsLoaderClick(firstRender));
-  commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(firstRender));
+  commentsLoader.addEventListener('click', () => onCommentsLoaderClick(reRender));
+  commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(reRender));
 }
 
 function closePictureModal() {
@@ -42,15 +38,15 @@ function closePictureModal() {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   pictureModalCloseElement.removeEventListener('click', onCloseIconClick);
-  // commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(firstRender));
+  // commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(reRender));
   // document.querySelector('.comments-loader').classList.remove('hidden');
 }
 
 pictureModalOpenElements.forEach((pictureModalOpenElement, index) => {
   pictureModalOpenElement.addEventListener('click', () => {
-    const firstRender = createFullsizePicture(pictureModalOpenElement, index);
+    const reRender = createFullsizePicture(pictureModalOpenElement, index);
 
-    openPictureModal(firstRender);
+    openPictureModal(reRender);
   });
 });
 
