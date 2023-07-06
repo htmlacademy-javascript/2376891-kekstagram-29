@@ -3,7 +3,6 @@ import { createFullsizePicture, bigPictureModalElement } from './fullsize-pictur
 
 const pictureModalOpenElements = Array.from(document.querySelectorAll('.picture'));
 const pictureModalCloseElement = document.querySelector('#picture-cancel');
-const commentsLoader = document.querySelector('.comments-loader');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -16,20 +15,12 @@ const onCloseIconClick = () => {
   closePictureModal();
 };
 
-const onCommentsLoaderClick = (reRender) => {
-  reRender();
-};
-
-function openPictureModal(reRender) {
+function openPictureModal() {
   bigPictureModalElement.classList.remove('hidden');
-  // bigPictureModalElement.querySelector('.social__comment-count').classList.add('hidden');
-  // bigPictureModalElement.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
   pictureModalCloseElement.addEventListener('click', onCloseIconClick);
-  commentsLoader.addEventListener('click', () => onCommentsLoaderClick(reRender));
-  commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(reRender));
 }
 
 function closePictureModal() {
@@ -38,15 +29,16 @@ function closePictureModal() {
 
   document.removeEventListener('keydown', onDocumentKeydown);
   pictureModalCloseElement.removeEventListener('click', onCloseIconClick);
-  // commentsLoader.removeEventListener('click', () => onCommentsLoaderClick(reRender));
-  // document.querySelector('.comments-loader').classList.remove('hidden');
 }
 
 pictureModalOpenElements.forEach((pictureModalOpenElement, index) => {
   pictureModalOpenElement.addEventListener('click', () => {
-    const reRender = createFullsizePicture(pictureModalOpenElement, index);
+    createFullsizePicture(pictureModalOpenElement, index);
 
-    openPictureModal(reRender);
+    if (pictureModalOpenElement.querySelector('.picture__comments').textContent <= 5) {
+      document.querySelector('.comments-loader').classList.add('hidden');
+    }
+    openPictureModal();
   });
 });
 
