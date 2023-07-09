@@ -9,14 +9,6 @@ const commentsList = bigPictureModalElement.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.comments-loader');
 let commentsCount, NextIndex;
 
-const clearCommentsList = () => {
-  if (commentsList.children) {
-    while (commentsList.firstChild) {
-      commentsList.removeChild(commentsList.firstChild);
-    }
-  }
-};
-
 const renderCommentsList = (photoIndex, targetCommentsCount) => {
   const comments = photos[photoIndex].comments;
   const fragment = document.createDocumentFragment();
@@ -55,7 +47,8 @@ export const createFullsizePicture = (picture, oneIndex) => {
   bigPictureModalElement.querySelector('.social__comment-count').querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
   bigPictureModalElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
 
-  clearCommentsList();
+  // clearCommentsList();
+  commentsList.innerHTML = '';
 
   renderCommentsList(NextIndex, 0);
 
