@@ -54,7 +54,7 @@ const renderCommentsList = () => {
   }
 
   commentsListElement.appendChild(fragment);
-  bigPictureCommentsCountElement.firstChild.textContent = `${commentsListElement.children.length} из `;
+  bigPictureCommentsCountElement.querySelector('.open_comments-count').textContent = `${commentsListElement.children.length} из `;
 };
 
 function onCommentsLoaderClick() {
@@ -66,7 +66,7 @@ function onCommentsLoaderClick() {
 const createBigPictureDetails = (picture) => {
   bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
   bigPictureElement.querySelector('.social').querySelector('span').textContent = picture.querySelector('.picture__likes').textContent;
-  bigPictureCommentsCountElement.querySelector('span').textContent = picture.querySelector('.picture__comments').textContent;
+  bigPictureCommentsCountElement.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
   bigPictureElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
 
   commentsListElement.innerHTML = '';
