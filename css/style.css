@@ -696,6 +696,18 @@ main {
   border-radius: 5px;
 }
 
+.img-upload__field-wrapper--error {
+  color: #e75651;
+  margin-top: 0;
+  margin-bottom: -20px;
+}
+
+.text__hashtags + .img-upload__field-wrapper--error {
+  color: #e75651;
+  margin-top: -20px;
+  margin-bottom: 0;
+}
+
 .text__description {
   width: 450px;
   height: 100px;
