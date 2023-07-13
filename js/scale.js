@@ -1,4 +1,4 @@
-// import { getNumber } from './itil';
+import { getNumber } from './itil.js';
 
 const SCALE_STEP = 25;
 const MIN_SCALE = '25%';
@@ -10,17 +10,6 @@ const smallerButtonElement = modalElement.querySelector('.scale__control--smalle
 const biggerButtonElement = modalElement.querySelector('.scale__control--bigger');
 const scaleValueElement = modalElement.querySelector('.scale__control--value');
 const imageElement = modalElement.querySelector('.img-upload__preview').querySelector('img');
-
-const getNumber = (string) => {
-  string = String(string);
-  let number = '';
-  for (let i = 0; i < string.length; i++) {
-    if (!Number.isNaN(parseInt(string[i], 10))) {
-      number += string[i];
-    }
-  }
-  return parseInt(number, 10);
-};
 
 const setScaleValue = (value) => {
   imageElement.style.transform = `scale(${getNumber(value) / 100})`;
