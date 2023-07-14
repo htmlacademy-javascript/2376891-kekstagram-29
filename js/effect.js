@@ -1,5 +1,3 @@
-// import { getNumber } from './itil.js';
-
 const FILTERS = {
   none: 0,
   chrome: {
@@ -46,53 +44,66 @@ const sliderContainerElement = modalElement.querySelector('.img-upload__effect-l
 const imgElement = modalElement.querySelector('.img-upload__preview img');
 const effectsListElement = modalElement.querySelector('.effects');
 
-sliderValueElement.value = 100;
+let chosenEffect = '', sliderValue = '';
 
-const setStyle = (effect) => {
-  // console.log(FILTERS[effect]['filter']);
-  if (effect === 'none') {
-    imgElement.style.filter = effect;
+const setImageStyle = () => {
+  if (chosenEffect === 'none') {
+    imgElement.style.filter = null;
     return;
   }
-  const value = sliderValueElement.value;
-  imgElement.style.filter = `${FILTERS[effect]['filter']}(${value + FILTERS[effect]['unit']})`;
-  // sliderElement.noUiSlider.updateOptions({
-  //   range: {
-  //     min: FILTERS[effect]['min'],
-  //     max: FILTERS[effect]['max'],
-  //   },
-  //   start: FILTERS[effect]['max'],
-  //   step: FILTERS[effect]['step'],
-  //   connect: 'lower',
-  // });
+
+  const { filter, unit } = FILTERS[chosenEffect];
+  imgElement.style.filter = `${filter}(${sliderValue + unit})`;
 };
 
-const onSliderUpdate = () => {
-  sliderValueElement.value = sliderElement.noUiSlider.get();
+const resetSlider = () => {
+  sliderElement.noUiSlider.destroy();
+  sliderContainerElement.classList.add('hidden');
 };
 
-const createSlider = (effect) => {
-  // console.log(`min: ${ FILTERS[effect]['min'] }max: ${ FILTERS[effect]['max'] }step: ${ FILTERS[effect]['step']}`);
+const createSlider = () => {
+  const { min, max, step } = FILTERS[chosenEffect];
   noUiSlider.create(sliderElement, {
     range: {
-      min: FILTERS[effect]['min'],
-      max: FILTERS[effect]['max'],
+      'min': min,
+      'max': max,
     },
-    start: FILTERS[effect]['max'],
-    step: FILTERS[effect]['step'],
+    start: max,
+    step: step,
     connect: 'lower',
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
   });
   sliderContainerElement.classList.remove('hidden');
   sliderElement.noUiSlider.on('update', onSliderUpdate);
 };
 
-effectsListElement.addEventListener('change', (evt) => {
-  const effect = evt.target.closest('[value]');
-  // console.log(effect.value);
+function onSliderUpdate() {
+  sliderValueElement.value = sliderElement.noUiSlider.get();
+  sliderValue = sliderValueElement.value;
+  setImageStyle();
+}
+
+sliderContainerElement.classList.add('hidden');
+
+const onEffectChange = (evt) => {
+  chosenEffect = evt.target.value;
   if (sliderElement.noUiSlider) {
-    sliderElement.noUiSlider.destroy();
-    sliderContainerElement.classList.add('hidden');
+    resetSlider();
   }
-  setStyle(effect.value);
-  createSlider(effect.value);
-});
+  if (chosenEffect === 'none') {
+    return;
+  }
+  createSlider();
+};
+
+effectsListElement.addEventListener('change', onEffectChange);
