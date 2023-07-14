@@ -1,4 +1,5 @@
 import { isEscapeKey } from './itil.js';
+import { resetScale } from './scale.js';
 
 const uploadFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = uploadFormElement.querySelector('#upload-file');
@@ -66,13 +67,14 @@ function closeUploadFile() {
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadFormElement.reset();
   pristine.reset();
+  resetScale();
 }
 
-function openUploadFile() {
+function onFileInputChange() {
   imgEditElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   cancelButtonElement.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
 }
 
-uploadFileElement.addEventListener('change', openUploadFile);
+uploadFileElement.addEventListener('change', onFileInputChange);
