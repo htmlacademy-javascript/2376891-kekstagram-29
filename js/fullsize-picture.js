@@ -1,4 +1,4 @@
-import { isEscapeKey } from './itil.js';
+import { isEscapeKey } from './util.js';
 // import { photos, template } from './gallery.js';
 import { template } from './gallery.js';
 
@@ -8,7 +8,7 @@ const bigPictureCommentsCountElement = bigPictureElement.querySelector('.social_
 const commentsLoaderElement = document.querySelector('.comments-loader');
 const cancelButtonElement = document.querySelector('#picture-cancel');
 const COMMENTS_FIRST_PORTION = 5;
-let commentsCount = COMMENTS_FIRST_PORTION, pictureIndex, minCommentsCount = 0;
+let commentsCount = COMMENTS_FIRST_PORTION, minCommentsCount = 0;
 let bigPicture = '';
 
 const onDocumentKeydown = (evt) => {
@@ -74,9 +74,8 @@ const createBigPictureDetails = () => {
   commentsListElement.innerHTML = '';
 };
 
-export const showFullsizePicture = (picture, index) => {
+export const showFullsizePicture = (picture) => {
   bigPicture = picture;
-  pictureIndex = index;
   createBigPictureDetails();
 
   renderCommentsList();

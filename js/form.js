@@ -1,5 +1,12 @@
-import { isEscapeKey } from './itil.js';
+import { isEscapeKey, showAlert } from './util.js';
 import { resetScale } from './scale.js';
+import { sendData } from './api.js';
+import { resetSlider } from './effect.js';
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
 const uploadFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = uploadFormElement.querySelector('#upload-file');
@@ -8,27 +15,41 @@ const cancelButtonElement = uploadFormElement.querySelector('#upload-cancel');
 const bodyElement = document.querySelector('body');
 const hashtagElement = uploadFormElement.querySelector('.text__hashtags');
 const commentElement = uploadFormElement.querySelector('.text__description');
+const submitButtonElement = uploadFormElement.querySelector('.img-upload__submit');
 const MAX_HASHTAG_COUNT = 5;
 let errorMessage;
 
-const onCancelButtonClick = () => {
-  closeUploadFile();
-};
-
 const isTextFieldFocused = () => document.activeElement === hashtagElement || document.activeElement === commentElement;
-
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt) && !isTextFieldFocused()) {
-    evt.preventDefault();
-    closeUploadFile();
-  }
-};
 
 const pristine = new Pristine(uploadFormElement, {
   classTo: 'img-upload__field-wrapper', //Элемент, на который будут добавляться классы
   errorTextParent: 'img-upload__field-wrapper', //Элемент, куда будет выводиться текст с ошибкой
   errorTextClass: 'img-upload__field-wrapper--error', //Класс для элемента с текстом ошибки
 }, false);
+
+const closeUploadFile = () => {
+  imgEditElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  cancelButtonElement.removeEventListener('click', onCancelButtonClick);
+  document.removeEventListener('keydown', onDocumentKeydown);
+  uploadFormElement.reset();
+  pristine.reset();
+  resetScale();
+  resetSlider();
+  uploadFileElement.value = '';
+  uploadFormElement.removeEventListener('submit', onFormSubmitClick);
+};
+
+function onCancelButtonClick() {
+  closeUploadFile();
+}
+
+function onDocumentKeydown(evt) {
+  if (isEscapeKey(evt) && !isTextFieldFocused()) {
+    evt.preventDefault();
+    closeUploadFile();
+  }
+}
 
 const validateHashtags = (value) => {
   const hashtags = value.toLowerCase().split(' ').filter((element) => element !== ''); //Boolean(element.length)
@@ -55,26 +76,43 @@ function getErrorMessage() {
 
 pristine.addValidator(hashtagElement, validateHashtags, getErrorMessage);
 
-uploadFormElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
-});
+const blockSubmitButton = () => {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = SubmitButtonText.SENDING;
+};
 
-function closeUploadFile() {
-  imgEditElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-  cancelButtonElement.removeEventListener('click', onCancelButtonClick);
-  document.removeEventListener('keydown', onDocumentKeydown);
-  uploadFormElement.reset();
-  pristine.reset();
-  resetScale();
+const unblockSubmitButton = () => {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = SubmitButtonText.IDLE;
+};
+
+function onFormSubmitClick (evt) {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid) {
+    blockSubmitButton();
+    const formData = new FormData(evt.target);
+    sendData(formData)
+      .catch((err) => {
+        showAlert(err.message);
+      })
+      .finally(unblockSubmitButton);
+  }
 }
+
+const setUploadFormSubmit = () => {
+  uploadFormElement.addEventListener('submit', onFormSubmitClick);
+};
 
 function onFileInputChange() {
   imgEditElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   cancelButtonElement.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
+
+  setUploadFormSubmit();
 }
 
 uploadFileElement.addEventListener('change', onFileInputChange);
+
+export { setUploadFormSubmit, closeUploadFile };
