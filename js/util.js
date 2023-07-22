@@ -6,6 +6,20 @@ const getRandomInteger = (a, b) => {
   return Math.floor(Math.random() * (upper - lower + 1) + lower);
 };
 
+const getRandomIntegerArray = (a, b, count) => {
+  const arr = [];
+  let int = '';
+  for (let i = 1; i <= count; i++) {
+    int = getRandomInteger(a, b);
+    if (arr.includes(int)) {
+      --i;
+    } else {
+      arr.push(int);
+    }
+  }
+  return arr;
+};
+
 const getNumber = (string) => {
   string = String(string);
   let number = '';
@@ -51,4 +65,12 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
-export { getRandomInteger, getRandomArrayElement, getSequenceNumber, isEscapeKey, getNumber, showAlert };
+const debounce = (callback, timeoutDelay) => {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+};
+
+export { getRandomInteger, getRandomIntegerArray, getRandomArrayElement, getSequenceNumber, isEscapeKey, getNumber, showAlert, debounce };
