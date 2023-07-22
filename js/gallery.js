@@ -1,15 +1,19 @@
-import { renderThumbnails } from './thumbnail.js';
+import { renderThumbnails, filtersListElement } from './thumbnail.js';
 import { getData, sendData } from './api.js';
-import { showAlert } from './util.js';
+import { showAlert, debounce } from './util.js';
 import { setUploadFormSubmit, closeUploadFileModal } from './form.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
 
 export const template = document.querySelector('.social__comment');
+export let photos = '';
 
+const RERENDER_DELAY = 500;
 
 getData()
   .then((data) => {
-    renderThumbnails(data);
+    photos = data;
+    debounce(renderThumbnails(data), RERENDER_DELAY);
+    filtersListElement.classList.remove('img-filters--inactive');
   })
   .catch((err) => showAlert(err.message));
 
