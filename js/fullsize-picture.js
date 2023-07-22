@@ -1,5 +1,6 @@
-import { isEscapeKey } from './itil.js';
-import { photos, template } from './gallery.js';
+import { isEscapeKey } from './util.js';
+// import { photos, template } from './gallery.js';
+import { template } from './gallery.js';
 
 const bigPictureElement = document.querySelector('.big-picture');
 const commentsListElement = bigPictureElement.querySelector('.social__comments');
@@ -7,7 +8,8 @@ const bigPictureCommentsCountElement = bigPictureElement.querySelector('.social_
 const commentsLoaderElement = document.querySelector('.comments-loader');
 const cancelButtonElement = document.querySelector('#picture-cancel');
 const COMMENTS_FIRST_PORTION = 5;
-let commentsCount = COMMENTS_FIRST_PORTION, pictureIndex, minCommentsCount = 0;
+let commentsCount = COMMENTS_FIRST_PORTION, minCommentsCount = 0;
+let bigPicture = '';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -31,7 +33,7 @@ function closePictureModal() {
 }
 
 const renderCommentsList = () => {
-  const comments = photos[pictureIndex].comments;
+  const comments = bigPicture.comments;
   const fragment = document.createDocumentFragment();
 
   comments.forEach((comment, index) => {
@@ -63,18 +65,18 @@ function onCommentsLoaderClick() {
   renderCommentsList();
 }
 
-const createBigPictureDetails = (picture) => {
-  bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = picture.querySelector('.picture__img').src;
-  bigPictureElement.querySelector('.social').querySelector('span').textContent = picture.querySelector('.picture__likes').textContent;
-  bigPictureCommentsCountElement.querySelector('.comments-count').textContent = picture.querySelector('.picture__comments').textContent;
-  bigPictureElement.querySelector('.social__caption').textContent = picture.querySelector('.picture__img').alt;
+const createBigPictureDetails = () => {
+  bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = bigPicture.url;
+  bigPictureElement.querySelector('.social').querySelector('span').textContent = bigPicture.likes;
+  bigPictureCommentsCountElement.querySelector('.comments-count').textContent = bigPicture.comments.length;
+  bigPictureElement.querySelector('.social__caption').textContent = bigPicture.description;
 
   commentsListElement.innerHTML = '';
 };
 
-export const showFullsizePicture = (picture, index) => {
-  pictureIndex = index;
-  createBigPictureDetails(picture);
+export const showFullsizePicture = (picture) => {
+  bigPicture = picture;
+  createBigPictureDetails();
 
   renderCommentsList();
 

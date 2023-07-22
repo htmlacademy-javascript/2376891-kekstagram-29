@@ -1,3 +1,5 @@
+import { showFullsizePicture } from './fullsize-picture.js';
+
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const thumbnailsList = document.querySelector('.pictures');
 
@@ -17,8 +19,14 @@ const renderThumbnails = (photos) => {
 
   photos.forEach((photo) => fragment.appendChild(createThumbnail(photo)));
   thumbnailsList.appendChild(fragment);
-};
 
-// export const template = document.querySelector('.social__comment');
+  const pictures = Array.from(document.querySelectorAll('.picture'));
+
+  pictures.forEach((picture, index) => {
+    picture.addEventListener('click', () => {
+      showFullsizePicture(photos[index]);
+    });
+  });
+};
 
 export { renderThumbnails };

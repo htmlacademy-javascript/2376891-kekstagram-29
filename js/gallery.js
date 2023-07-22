@@ -1,16 +1,32 @@
-import { getPhotos } from './script.js';
 import { renderThumbnails } from './thumbnail.js';
-import { showFullsizePicture } from './fullsize-picture.js';
+import { getData, sendData } from './api.js';
+import { showAlert } from './util.js';
+import { setUploadFormSubmit, closeUploadFileModal } from './form.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 export const template = document.querySelector('.social__comment');
 
-export const photos = getPhotos();
-renderThumbnails(photos);
 
-const pictures = Array.from(document.querySelectorAll('.picture'));
+getData()
+  .then((data) => {
+    renderThumbnails(data);
+  })
+  .catch((err) => showAlert(err.message));
 
-pictures.forEach((picture, index) => {
-  picture.addEventListener('click', () => {
-    showFullsizePicture(picture, index);
-  });
+// try {
+//   const data = await getData();
+//   renderThumbnails(data);
+// } catch (err) {
+//   showAlert(err.message);
+// }
+
+setUploadFormSubmit(async (data) => {
+  try {
+    await sendData(data);
+    closeUploadFileModal();
+    showSuccessMessage();
+  } catch {
+    showErrorMessage();
+  }
 });
+
