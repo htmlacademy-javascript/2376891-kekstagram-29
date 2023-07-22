@@ -1,6 +1,7 @@
 import { isEscapeKey } from './util.js';
 import { resetScale } from './scale.js';
 import { resetSlider } from './effect.js';
+import { setUploadFile } from './upload-file.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const ErrorText = {
@@ -112,6 +113,7 @@ const showUploadFileModal = () => {
 };
 
 function onUploadFileChange() {
+  setUploadFile();
   showUploadFileModal();
 }
 
