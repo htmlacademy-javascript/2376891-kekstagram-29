@@ -1,4 +1,4 @@
-const FILTERS = {
+const FILTER = {
   none: 0,
   chrome: {
     filter: 'grayscale',
@@ -46,7 +46,6 @@ const sliderValueElement = modalElement.querySelector('.effect-level__value');
 const sliderContainerElement = modalElement.querySelector('.img-upload__effect-level');
 const imgElement = modalElement.querySelector('.img-upload__preview img');
 const effectsListElement = modalElement.querySelector('.effects');
-
 let chosenEffect = '', sliderValue = '';
 
 const setImageStyle = () => {
@@ -55,7 +54,7 @@ const setImageStyle = () => {
     return;
   }
 
-  const { filter, unit } = FILTERS[chosenEffect];
+  const { filter, unit } = FILTER[chosenEffect];
   imgElement.style.filter = `${filter}(${sliderValue + unit})`;
 };
 
@@ -70,7 +69,7 @@ const resetSlider = () => {
 };
 
 const createSlider = () => {
-  const { min, max, step } = FILTERS[chosenEffect];
+  const { min, max, step } = FILTER[chosenEffect];
   noUiSlider.create(sliderElement, {
     range: {
       'min': min,

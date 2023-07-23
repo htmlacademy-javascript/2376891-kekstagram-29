@@ -16,23 +16,22 @@ const SubmitButtonText = {
 
 const uploadFormElement = document.querySelector('#upload-select-image');
 const uploadFileElement = uploadFormElement.querySelector('#upload-file');
-const overlay = uploadFormElement.querySelector('.img-upload__overlay');
+const overlayElement = uploadFormElement.querySelector('.img-upload__overlay');
 const cancelButtonElement = uploadFormElement.querySelector('#upload-cancel');
 const bodyElement = document.querySelector('body');
 const hashtagElement = uploadFormElement.querySelector('.text__hashtags');
 const commentElement = uploadFormElement.querySelector('.text__description');
 const submitButtonElement = uploadFormElement.querySelector('.img-upload__submit');
-
 let errorMessage;
 
 const isTextFieldFocused = () => document.activeElement === hashtagElement || document.activeElement === commentElement;
 const isErrorMessageShown = () => Boolean(document.querySelector('.error'));
 
 const pristine = new Pristine(uploadFormElement, {
-  classTo: 'img-upload__field-wrapper', //Элемент, на который будут добавляться классы
-  errorTextParent: 'img-upload__field-wrapper', //Элемент, куда будет выводиться текст с ошибкой
-  errorTextClass: 'img-upload__field-wrapper--error', //Класс для элемента с текстом ошибки
-}, false);
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper--error',
+});
 
 const closeUploadFileModal = () => {
   uploadFormElement.reset();
@@ -40,9 +39,8 @@ const closeUploadFileModal = () => {
   resetScale();
   resetSlider();
   uploadFileElement.value = '';
-  overlay.classList.add('hidden');
+  overlayElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
-  cancelButtonElement.removeEventListener('click', onCancelButtonClick);
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
@@ -106,7 +104,7 @@ const setUploadFormSubmit = (callback) => {
 };
 
 const showUploadFileModal = () => {
-  overlay.classList.remove('hidden');
+  overlayElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
   cancelButtonElement.addEventListener('click', onCancelButtonClick);
   document.addEventListener('keydown', onDocumentKeydown);
