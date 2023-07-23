@@ -2,7 +2,7 @@ import { isEscapeKey } from './util.js';
 
 const successTemplateElement = document.querySelector('#success').content.querySelector('.success');
 const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
-const messagesList = document.querySelector('body');
+const messagesListElement = document.querySelector('body');
 
 const onCancelButtonClick = () => {
   closeMessage();
@@ -16,23 +16,23 @@ const onDocumentKeydown = (evt) => {
 };
 
 const onOutsideClick = (evt) => {
-  if (evt.target === messagesList.querySelector('.success') ||
-  evt.target === messagesList.querySelector('.error')) {
+  if (evt.target === messagesListElement.querySelector('.success') ||
+  evt.target === messagesListElement.querySelector('.error')) {
     closeMessage();
   }
 };
 
 function closeMessage () {
-  messagesList.removeChild(messagesList.lastChild);
-  document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onOutsideClick);
+  messagesListElement.removeChild(messagesListElement.lastChild);
+  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('click', onOutsideClick);
 }
 
 const showSuccessMessage = () => {
   const fragment = document.createDocumentFragment();
   const template = successTemplateElement.cloneNode(true);
   fragment.appendChild(template);
-  messagesList.appendChild(fragment);
+  messagesListElement.appendChild(fragment);
 
   const cancelSuccessButtonElement = template.querySelector('.success__button');
   cancelSuccessButtonElement.addEventListener('click', onCancelButtonClick);
@@ -44,7 +44,7 @@ const showErrorMessage = () => {
   const fragment = document.createDocumentFragment();
   const template = errorTemplateElement.cloneNode(true);
   fragment.appendChild(template);
-  messagesList.appendChild(fragment);
+  messagesListElement.appendChild(fragment);
 
   const cancelErrorButtonElement = template.querySelector('.error__button');
   cancelErrorButtonElement.addEventListener('click', onCancelButtonClick);

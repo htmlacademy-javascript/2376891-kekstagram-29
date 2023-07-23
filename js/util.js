@@ -1,25 +1,5 @@
 const ALERT_SHOW_TIME = 5000;
 
-const getRandomInteger = (a, b) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(Math.random() * (upper - lower + 1) + lower);
-};
-
-const getRandomIntegerArray = (a, b, count) => {
-  const arr = [];
-  let int = '';
-  for (let i = 1; i <= count; i++) {
-    int = getRandomInteger(a, b);
-    if (arr.includes(int)) {
-      --i;
-    } else {
-      arr.push(int);
-    }
-  }
-  return arr;
-};
-
 const getNumber = (string) => {
   string = String(string);
   let number = '';
@@ -29,17 +9,6 @@ const getNumber = (string) => {
     }
   }
   return parseInt(number, 10);
-};
-
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
-
-const getSequenceNumber = (min, max) => {
-  let num = min;
-  return () => {
-    if (num <= max) {
-      return num++;
-    }
-  };
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
@@ -73,4 +42,4 @@ const debounce = (callback, timeoutDelay) => {
   };
 };
 
-export { getRandomInteger, getRandomIntegerArray, getRandomArrayElement, getSequenceNumber, isEscapeKey, getNumber, showAlert, debounce };
+export { isEscapeKey, getNumber, showAlert, debounce };
