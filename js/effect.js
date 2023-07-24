@@ -81,9 +81,9 @@ const createSlider = () => {
     format: {
       to: function (value) {
         if (Number.isInteger(value)) {
-          return value.toFixed(0);
+          return value.toFixed(2); //тест принимает знач-е с двумя цифрами после запятой (было 0)
         }
-        return value.toFixed(1);
+        return value.toFixed(2); //округление до 1 цифры после запятой не проходит тесты
       },
       from: function (value) {
         return parseFloat(value);
