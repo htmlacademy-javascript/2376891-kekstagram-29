@@ -6,13 +6,6 @@ import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const template = document.querySelector('.social__comment');
 
-try {
-  const data = await getData();
-  renderThumbnails(data);
-} catch (err) {
-  showAlert(err.message);
-}
-
 setUploadFormSubmit(async (data) => {
   try {
     await sendData(data);
@@ -22,5 +15,12 @@ setUploadFormSubmit(async (data) => {
     showErrorMessage();
   }
 });
+
+try {
+  const data = await getData();
+  renderThumbnails(data);
+} catch (err) {
+  showAlert(err.message);
+}
 
 export { template };
