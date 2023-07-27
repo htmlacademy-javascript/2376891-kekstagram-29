@@ -27,7 +27,7 @@ const clearThumbnails = () => {
   }
 };
 
-function onThumbnailClick(evt) {
+const onThumbnailClick = (evt) => {
   const thumbnail = evt.target.closest('[data-thumbnail-id]');
   if (!thumbnail) {
     return;
@@ -35,7 +35,7 @@ function onThumbnailClick(evt) {
   evt.preventDefault();
   const picture = loadedPhotos.find((photo) => photo.id === Number(thumbnail.dataset.thumbnailId));
   showFullsizePicture(picture);
-}
+};
 
 const renderThumbnails = (photos) => {
   const fragment = document.createDocumentFragment();
