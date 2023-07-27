@@ -68,6 +68,12 @@ const resetSlider = () => {
   setImageStyle();
 };
 
+const onSliderUpdate = () => {
+  sliderValueElement.value = sliderElement.noUiSlider.get();
+  sliderValue = sliderValueElement.value;
+  setImageStyle();
+};
+
 const createSlider = () => {
   const { min, max, step } = FILTER[chosenEffect];
   noUiSlider.create(sliderElement, {
@@ -79,26 +85,18 @@ const createSlider = () => {
     step: step,
     connect: 'lower',
     format: {
-      to: function (value) {
+      to: (value) => {
         if (Number.isInteger(value)) {
           return value.toFixed(2); //тест принимает знач-е с двумя цифрами после запятой (было 0)
         }
         return value.toFixed(2); //округление до 1 цифры после запятой не проходит тесты
       },
-      from: function (value) {
-        return parseFloat(value);
-      },
+      from: (value) => parseFloat(value),
     },
   });
   sliderContainerElement.classList.remove('hidden');
   sliderElement.noUiSlider.on('update', onSliderUpdate);
 };
-
-function onSliderUpdate() {
-  sliderValueElement.value = sliderElement.noUiSlider.get();
-  sliderValue = sliderValueElement.value;
-  setImageStyle();
-}
 
 sliderContainerElement.classList.add('hidden');
 

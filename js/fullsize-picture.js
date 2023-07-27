@@ -14,25 +14,25 @@ const bodyElement = document.querySelector('body');
 let shownCommentsCount = COMMENTS_FIRST_PORTION, minCommentsCount = 0;
 let bigPicture = '';
 
-const onDocumentKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    closePictureModal();
-  }
-};
-
-const onCancelButtonClick = () => {
-  closePictureModal();
-};
-
-function closePictureModal() {
+const closePictureModal = () => {
   bigPictureElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
   shownCommentsCount = COMMENTS_FIRST_PORTION;
   minCommentsCount = 0;
+};
+
+function onDocumentKeydown (evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closePictureModal();
+  }
 }
+
+const onCancelButtonClick = () => {
+  closePictureModal();
+};
 
 const renderCommentsList = () => {
   const comments = bigPicture.comments;
@@ -61,11 +61,11 @@ const renderCommentsList = () => {
   openCommentsCountElement.textContent = `${commentsListElement.children.length} из `;
 };
 
-function onCommentsLoaderClick() {
+const onCommentsLoaderClick = () => {
   minCommentsCount = shownCommentsCount;
   shownCommentsCount += COMMENTS_FIRST_PORTION;
   renderCommentsList();
-}
+};
 
 const createBigPictureDetails = () => {
   bigPictureElement.querySelector('.big-picture__img').querySelector('img').src = bigPicture.url;

@@ -44,9 +44,9 @@ const closeUploadFileModal = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-function onCancelButtonClick() {
+const onCancelButtonClick = () => {
   closeUploadFileModal();
-}
+};
 
 function onDocumentKeydown(evt) {
   if (isEscapeKey(evt) && !isTextFieldFocused() && !isErrorMessageShown()) {
@@ -56,7 +56,7 @@ function onDocumentKeydown(evt) {
 }
 
 const validateHashtags = (value) => {
-  const hashtags = value.toLowerCase().split(' ').filter((element) => element !== ''); //Boolean(element.length)
+  const hashtags = value.toLowerCase().split(' ').filter((element) => element !== '');
   const totalHashtags = new Set(hashtags);
 
   if (hashtags.length !== totalHashtags.size) {
@@ -74,9 +74,7 @@ const validateHashtags = (value) => {
   return hashtags.every((hashtag) => hashtagTemplate.test(hashtag));
 };
 
-function getErrorMessage() {
-  return errorMessage;
-}
+const getErrorMessage = () => errorMessage;
 
 pristine.addValidator(hashtagElement, validateHashtags, getErrorMessage);
 
@@ -110,10 +108,10 @@ const showUploadFileModal = () => {
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
-function onUploadFileChange() {
+const onUploadFileChange = () => {
   setUploadFile();
   showUploadFileModal();
-}
+};
 
 uploadFileElement.addEventListener('change', onUploadFileChange);
 
